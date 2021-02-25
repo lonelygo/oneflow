@@ -101,7 +101,7 @@ class MirroredTensor final : public Tensor {
   bool is_lazy() const override { return impl_->is_lazy(); }
   bool is_consistent() const override { return false; }
   int ndim() const override { return impl_->shape()->NumAxes(); }
-  bool is_cuda() const override { return (impl_->parallel_desc()->device_type() == DeviceType::kCPU); }
+  bool is_cuda() const override { return (impl_->parallel_desc()->device_type() == DeviceType::kGPU); }
 
   // Setters
   void set_shape(const std::shared_ptr<const Shape>& shape) override {
