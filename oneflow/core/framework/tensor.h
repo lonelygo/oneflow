@@ -87,7 +87,7 @@ class MirroredTensor final : public Tensor {
   OF_DISALLOW_COPY_AND_MOVE(MirroredTensor);
   MirroredTensor() = default;
   MirroredTensor(const std::shared_ptr<MirroredTensorImpl>& impl) { impl_ = impl; }
-  ~MirroredTensor() = default;
+  ~MirroredTensor() override = default;
 
   // Getters
   const std::shared_ptr<const Shape>& shape() const override { return impl_->shape(); }
@@ -128,7 +128,7 @@ class ConsistentTensor final : public Tensor {
   OF_DISALLOW_COPY_AND_MOVE(ConsistentTensor);
   ConsistentTensor() = default;
   ConsistentTensor(const std::shared_ptr<ConsistentTensorImpl>& impl) { impl_ = impl; }
-  ~ConsistentTensor() = default;
+  ~ConsistentTensor() override = default;
 
   // Getters
   const std::shared_ptr<const Shape>& shape() const override { return impl_->shape(); }
