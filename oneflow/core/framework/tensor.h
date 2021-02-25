@@ -66,6 +66,8 @@ class Tensor {
   virtual const std::shared_ptr<const ParallelDesc>& parallel_desc() const = 0;
   virtual bool is_lazy() const = 0;
   virtual bool is_consistent() const = 0;
+  virtual int ndim() const = 0;
+  virtual bool is_cuda() const = 0;
 
   // Setters
   virtual void set_shape(const std::shared_ptr<const Shape>& shape) = 0;
@@ -98,6 +100,8 @@ class MirroredTensor final : public Tensor {
   const std::shared_ptr<const Device>& device() const { return impl_->device(); }
   bool is_lazy() const override { return impl_->is_lazy(); }
   bool is_consistent() const override { return false; }
+  int ndim() const override { return impl_->shape()->NumAxes(); }
+  bool is_cuda() const override { return (impl_->parallel_desc()->device_type() == DeviceType::kCPU); }
 
   // Setters
   void set_shape(const std::shared_ptr<const Shape>& shape) override {
@@ -141,6 +145,8 @@ class ConsistentTensor final : public Tensor {
   }
   bool is_lazy() const override { return impl_->is_lazy(); }
   bool is_consistent() const override { return true; }
+  int ndim() const override { return impl_->shape()->NumAxes(); }
+  bool is_cuda() const override { return (impl_->parallel_desc()->device_type() == DeviceType::kGPU); }
 
   // Setters
   void set_shape(const std::shared_ptr<const Shape>& shape) override {
